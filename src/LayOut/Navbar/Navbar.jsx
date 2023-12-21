@@ -1,34 +1,44 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
-
+import userImg from "../../assets/user.png";
 const Navbar = () => {
-
-
   const { user, logOut } = useContext(AuthContext);
   const handleLogout = () => {
     logOut()
       .then(() => {})
       .catch((error) => console.error(error));
   };
-const navLinks = <>
-<li><NavLink to="/">Home</NavLink></li>
-<li><NavLink to="/about">About</NavLink></li>
-{user?.email ? (
-  <>
-    <li><NavLink to="/contact">Contact Us</NavLink></li>
-    <button onClick={handleLogout}>LogOut</button>
-  </>
-) : (
-  <>
-    <li><NavLink to="/login">Login</NavLink></li>
-    <li><NavLink to="/register">Register</NavLink></li>
-  </>
-)}
-
-
-
-</>
+  const navLinks = (
+    <>
+      <li>
+        <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/about">About</NavLink>
+      </li>
+      {user?.email ? (
+        <>
+          <li>
+            <NavLink to="/contactus">Contact Us</NavLink>
+          </li>
+          <li>
+            <NavLink to="/hub">Developer's Hub</NavLink>
+          </li>
+          <button onClick={handleLogout}>LogOut</button>
+        </>
+      ) : (
+        <>
+          <li>
+            <NavLink to="/login">Login</NavLink>
+          </li>
+          <li>
+            <NavLink to="/register">Register</NavLink>
+          </li>
+        </>
+      )}
+    </>
+  );
 
   return (
     <div>
@@ -55,19 +65,21 @@ const navLinks = <>
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-             {navLinks}
+              {navLinks}
             </ul>
           </div>
           <a className="btn btn-ghost text-xl">Task ManageMent</a>
         </div>
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
-           {navLinks}
-          </ul>
+          <ul className="menu menu-horizontal px-1">{navLinks}</ul>
         </div>
-        <div className="navbar-end">
-          <a className="btn">Button</a>
-        </div>
+        {user ? (
+          <img
+            className="rounded-full w-8 md:w-24 lg:w-10 xl:w-14 ml-5"
+            src={user.photoURL || userImg}
+            alt=""
+          />
+        ) : null}
       </div>
     </div>
   );

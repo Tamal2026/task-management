@@ -1,8 +1,16 @@
-import Banner from '../Home/Banner/Banner'
+import { useContext } from 'react';
+import Dashboard from '../../Component/Dashboard/Dashboard';
+import Banner from '../Home/Banner/Banner';
+import { AuthContext } from '../../Provider/AuthProvider';
+
 const Home = () => {
-    return (
-      <Banner></Banner>
-    );
+  const { user } = useContext(AuthContext);
+
+  return (
+    <div>
+      {user?.email ? <Dashboard /> : <Banner />}
+    </div>
+  );
 };
 
 export default Home;
